@@ -9,8 +9,11 @@ exports.findInvoice = async (req, res) => {
   const id = req.params.id;
   const user = req.params.user;
   try {
-    const invoice = await Invoice.findOne({ _id: id,user:user });
-    const customer = await Customer.findOne({ name: invoice.customer ,user:user });
+    const invoice = await Invoice.findOne({ _id: id, user: user });
+    const customer = await Customer.findOne({
+      name: invoice.customer,
+      user: user,
+    });
     const company = await Company.findOne({ user: invoice.user });
 
     if (!invoice) {
@@ -24,7 +27,6 @@ exports.findInvoice = async (req, res) => {
     }
 
     res.status(200).json({ ...invoice, customer: customer, company: company });
-    
   } catch (error) {
     console.error(error);
     res.status(500).json({ Message: "Internal Server Error" });
