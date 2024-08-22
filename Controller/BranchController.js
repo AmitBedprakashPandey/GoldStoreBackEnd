@@ -26,9 +26,9 @@ exports.findAll = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id= req.params.id;
-  const updateData = Branch(req.body);
+  const{branch}  = req.body;
   try {
-    const updatedCity = await Branch.findByIdAndUpdate(id,updateData, {
+    const updatedCity = await Branch.findByIdAndUpdate(id,{branch:branch}, {
       new: true,
     });
     if (!updatedCity) {

@@ -5,7 +5,9 @@ const Key = "AmitPandey9137976758";
 
 exports.register = async (req, res) => {
   try {
+    
     const { email, pass } = req.body;
+    console.log(email,pass);
     const foundUser = await Model.findOne({ email: email });
     if (foundUser) {
       return res.status(302).json({ message: "aleady have user" });
@@ -43,6 +45,6 @@ exports.login = async (req, res) => {
     });
     return res.status(200).json({ token: token, email: user.email });
   } catch (error) {
-    res.status(500).json({ error: "Login failed Refresh and try agian !!" });
+    res.status(500).json({ message: "Login failed Refresh and try agian !!",error });
   }
 };
