@@ -43,6 +43,7 @@ exports.login = async (req, res) => {
     });
     return res.status(200).json({ token: token, email: user.email });
   } catch (error) {
-    res.status(500).json({ error: "Login failed Refresh and try agian !!" });
+    res.status(500).json({ error: "Login failed Refresh and try agian !!" ,error
+                         });
   }
 };
