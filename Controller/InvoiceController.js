@@ -1,6 +1,5 @@
 // userController.js
 const Invoice = require("../Model/InvoiceModel");
-const InvoiceId = require("../Model/IdGenraterModel");
 exports.create = async (req, res) => {
   try {
     const statesData = Invoice(req.body);
@@ -41,6 +40,7 @@ exports.findOne = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id = req.params.id;
+console.log(id);
 
   const updateData = Invoice(req.body);
   try {

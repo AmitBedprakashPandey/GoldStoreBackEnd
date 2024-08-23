@@ -9,6 +9,6 @@ const InvoiceIdGenraterSchema = new mongoose.Schema({
   companyid: { type: String },
 });
 
-const InvoiceIdGenrater = mongoose.model("invoiceid", InvoiceIdGenraterSchema);
+const InvoiceIdGenrater = mongoose.model("invoiceidgst", InvoiceIdGenraterSchema);
 
 module.exports = InvoiceIdGenrater;

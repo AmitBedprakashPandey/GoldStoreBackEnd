@@ -1,6 +1,5 @@
 // userController.js
 const Invoice = require("../Model/InvoiceWithoutGSTModel");
-const InvoiceId = require("../Model/IdGenraterModel");
 exports.create = async (req, res) => {
   try {
     const statesData = Invoice(req.body);
@@ -40,12 +39,13 @@ exports.findOne = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const { id, user } = req.params;
-  console.log(id, user);
+  const id = req.params.id;
+  console.log(id);
+
   const updateData = Invoice(req.body);
   try {
     const updatedCity = await Invoice.findOneAndUpdate(
-      { id, user },
+      { _id: id, user: req.params.user },
       updateData,
       {
         new: true,

@@ -2,7 +2,7 @@
 const InvoiceId = require("../Model/IdGenraterModel");
 
 exports.create = async (req, res) => {
-  try {    
+  try {
     const statesData = InvoiceId(req.body);
     const insertedCitys = await InvoiceId.create(statesData);
     res
@@ -15,25 +15,26 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  console.log(req.params);
   try {
-    const one = await InvoiceId.findOne({quot:req.params.id,user:req.params.user});
-    console.log(one);
-    const updatedCity =   await InvoiceId.findByIdAndUpdate(one._id,{invoiceid:Number(one.invoiceid) + 1}, {
-      new: true,
-    });
+    console.log("com id",req.params.companyid);
+    const data = await InvoiceId.findOne({ companyid: req.params.companyid });
+    console.log('out data',data);
     
-    if (!updatedCity) {
-          return res.status(404).json({ message: "not found" });
-        }
+    const updatedCity = await InvoiceId.findByIdAndUpdate(data._id,
+      { number: Number(data.number) + 1 },
+      { new: true }
+    );
 
-        
+    if (!updatedCity) {
+      return res.status(404).json({ message: "not found" });
+    }
+
     res
-        .status(200)
-        .json({ message: "updated successfully", data: updatedCity });
+      .status(200)
+      .json({ message: "updated successfully", data: updatedCity });
   } catch (error) {
     console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
   // try {
   //   const updatedCity = await InvoiceId.findByIdAndUpdate(id,updateData, {
@@ -51,10 +52,10 @@ exports.update = async (req, res) => {
   // }
 };
 
-exports.findOn = async (req, res) => {  
+exports.findOn = async (req, res) => {
   try {
-    const data = await InvoiceId.find({user:req.params.user}); // Fetch all data from the database
-    res.status(200).json(data );
+    const data = await InvoiceId.findOne({ companyid: req.params.companyid }); // Fetch all data from the database
+    res.status(200).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ Message: "Internal Server Error" });

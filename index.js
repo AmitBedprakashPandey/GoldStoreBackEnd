@@ -27,8 +27,8 @@ const CustomerRoute = require("./Routes/CustomerRoutes");
 const InvoiceRoute = require("./Routes/InvoiceRoutes");
 const InvoiceWoithoutGSTRoute = require("./Routes/InvoiceWithoutGSTRoutes");
 const BranchRoute = require("./Routes/BranchRoutes");
-const InvoiceIdRoute = require("./Routes/InvoiceIdGenraterRoutes");
-const InvoiceWithoutGSTIDRoute = require("./Routes/InvoiceWithoutGSTIDRoutes");
+const InvoiceNumboerRoute = require("./Routes/InvoiceIdGenraterRoutes");
+const InvoiceNumberGstRoute = require("./Routes/InvoiceIdGenraterRoutes2");
 const UserRoute = require("./Routes/UserRoutes");
 const CompanyRoute = require("./Routes/CompanyRoutes");
 const verifyToken = require("./Controller/Middlware/AuthMiddleware");
@@ -41,11 +41,13 @@ const State = require("./Routes/StateRoutes");
 app.use("/api/auth", UserRoute);
 app.use("/api/customer", verifyToken, CustomerRoute);
 app.use("/api/state", State);
+
 app.use("/api/invoice", verifyToken, InvoiceRoute);
 app.use("/api/invoicewithoutgst", verifyToken, InvoiceWoithoutGSTRoute);
+
 app.use("/api/branch", verifyToken, BranchRoute);
-app.use("/api/invoiceid", InvoiceIdRoute);
-app.use("/api/invoicewithoutgstid", InvoiceWithoutGSTIDRoute);
+app.use("/api/invoiceid", InvoiceNumboerRoute);
+app.use("/api/invoicegst", InvoiceNumberGstRoute);
 app.use("/api/company", verifyToken, CompanyRoute);
 app.use("/api/print", verifyToken, print);
 app.use("/api/printwithoutgst", verifyToken, printwithoutgst);
