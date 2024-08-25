@@ -10,7 +10,7 @@ exports.findInvoice = async (req, res) => {
   const user = req.params.user;
   console.log(id);
   try {
-    const invoice = await Invoice.findOne({ _id: id,user:user});
+    const invoice = await Invoice.findOne({ quot: id,user:user});
     const customer = await Customer.findOne({ name: invoice.customer ,user:user });
     const company = await Company.findOne({ user: invoice.user });
 

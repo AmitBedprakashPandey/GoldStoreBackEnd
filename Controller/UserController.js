@@ -1,50 +1,59 @@
-const Model = require("../Model/UserModel");
+const UserModel = require("../Model/UserModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const Key = "AmitPandey9137976758";
 
+const SECRET_KEY = process.env.SECRET_KEY || "AmitPandey9137976758"; // Use environment variable
+
+// Register user
 exports.register = async (req, res) => {
   try {
-    
     const { email, pass } = req.body;
-    console.log(email,pass);
-    const foundUser = await Model.findOne({ email: email });
+
+    // Check if the user already exists
+    const foundUser = await UserModel.findOne({ email }).lean();
     if (foundUser) {
-      return res.status(302).json({ message: "aleady have user" });
+      return res.status(409).json({ message: "User already exists" });
     }
+
+    // Hash the password and create a new user
     const hashedPassword = await bcrypt.hash(pass, 10);
-    const user = new Model({ email, pass: hashedPassword });
-    const inserted = await Model.create(user);
-    return res.status(200).json({ message: "Created Successfully" });
+    const newUser = new UserModel({ email, pass: hashedPassword });
+    await newUser.save();
+
+    return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    console.error(error);
-    res
+    console.error("Registration error:", error);
+    return res
       .status(500)
-      .json({ message: "Internal Server Error, Refresh and try again !" });
+      .json({ message: "Internal Server Error, please try again later" });
   }
 };
 
 // Login user
 exports.login = async (req, res) => {
-  const { email, pass } = req.body;
-  console.log(email,pass);
   try {
-    const user = await Model.findOne({ email });
+    const { email, pass } = req.body;
 
+    // Find the user by email
+    const user = await UserModel.findOne({ email }).lean();
     if (!user) {
-      return res.status(404).json({ error: "User Not found !" });
-    }
-    const passwordMatch = await bcrypt.compare(pass, user.pass);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Please Check Password" });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    const token = jwt.sign({ userId: user.email }, Key, {
-      expiresIn: "2d",
+    // Check if the password is correct
+    const isPasswordValid = await bcrypt.compare(pass, user.pass);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid password" });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ userId: user._id }, SECRET_KEY, {
+      expiresIn: "1d",
     });
-    return res.status(200).json({ token: token, email: user.email });
+
+    return res.status(200).json({ token, email: user.email });
   } catch (error) {
-    res.status(500).json({ error: "Login failed Refresh and try agian !!" });
+    console.error("Login error:", error);
+    return res.status(500).json({ error: "Login failed, please try again later" });
   }
 };

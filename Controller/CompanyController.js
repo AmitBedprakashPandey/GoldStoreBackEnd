@@ -2,13 +2,11 @@
 const Company = require("../Model/CompanyModel");
 
 exports.create = async (req, res) => {
-  try {    
+  try {
     const Data = Company(req.body);
 
     const inserted = await Company.create(Data);
-    res
-      .status(200)
-      .json({ message: "save", data: inserted });
+    res.status(200).json({ message: "save", data: inserted });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -16,12 +14,16 @@ exports.create = async (req, res) => {
 };
 
 exports.findByUser = async (req, res) => {
-
   try {
-    const data = await Company.findOne({user:req.params.user});
-if(!data){
- 	return res.status(200).json({ message: "not found" })
-}
+    const data = await Company.findOne({ user: req.params.user });
+    if (!data) {
+      return res.status(200).json({ message: "not found" });
+    }
+
+    if (res.status === 401) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    }
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
@@ -30,23 +32,20 @@ if(!data){
 };
 
 exports.update = async (req, res) => {
-  const user= req.params.user;
+  const user = req.params.user;
   const updateData = Company(req.body);
   try {
-    const one = await Company.findOne({user:user});
+    const one = await Company.findOne({ user: user });
 
-    const updatedCity = await Company.findByIdAndUpdate(one._id,updateData, {
+    const updatedCity = await Company.findByIdAndUpdate(one._id, updateData, {
       new: true,
     });
     if (!updatedCity) {
       return res.status(404).json({ message: "not found" });
     }
-    res
-      .status(200)
-      .json({ message: "update", data: updatedCity });
+    res.status(200).json({ message: "update", data: updatedCity });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
