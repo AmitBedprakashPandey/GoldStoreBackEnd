@@ -37,10 +37,12 @@ const printwithoutgst = require("./Routes/PrintWithoutGstRoutes");
 const bank = require("./Routes/BankRoutes");
 const mode = require("./Routes/ModeRoutes");
 const State = require("./Routes/StateRoutes");
+const LivePrice = require("./Routes/LivePriceRoutes");
 
 app.use("/api/auth", UserRoute);
 app.use("/api/customer", verifyToken, CustomerRoute);
 app.use("/api/state", State);
+app.use("/api/liveprice", LivePrice);
 
 app.use("/api/invoice", verifyToken, InvoiceRoute);
 app.use("/api/invoicewithoutgst", verifyToken, InvoiceWoithoutGSTRoute);
