@@ -14,6 +14,13 @@ const CompanySchema = new mongoose.Schema({
   gst: { type: String },
   logo: { type: String },
   signa: { type: String },
+  ownerimg: { type: String },
+  owner: { type: String },
+  youtube: { type: String },
+  facebook: { type: String },
+  whatsapp: { type: String },
+  insta: { type: String },
+  map: { type: String },
 });
 
 const Company = mongoose.model("Company", CompanySchema);
