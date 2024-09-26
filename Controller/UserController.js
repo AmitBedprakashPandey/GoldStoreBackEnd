@@ -33,6 +33,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, pass } = req.body;
+console.log(email,pass);
 
     // Find the user by email
     const user = await UserModel.findOne({ email }).lean();

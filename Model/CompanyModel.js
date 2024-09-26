@@ -21,6 +21,7 @@ const CompanySchema = new mongoose.Schema({
   whatsapp: { type: String },
   insta: { type: String },
   map: { type: String },
+  banner: { type: [String], default: [] },
 });
 
 const Company = mongoose.model("Company", CompanySchema);

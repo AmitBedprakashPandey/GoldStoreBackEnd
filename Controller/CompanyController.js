@@ -34,6 +34,8 @@ exports.findByUser = async (req, res) => {
 exports.update = async (req, res) => {
   const user = req.params.user;
   const updateData = Company(req.body);
+  console.table(req.body);
+  
   try {
     const one = await Company.findOne({ user: user });
 
