@@ -5,7 +5,6 @@ exports.create = async (req, res) => {
 
   try {    
     const data = Mode(req.body);
-  console.log(data);
     const insert = await Mode.create(data);
     res
       .status(200)

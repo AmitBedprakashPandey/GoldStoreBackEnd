@@ -16,9 +16,7 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    console.log("com id",req.params.companyid);
     const data = await InvoiceId.findOne({ companyid: req.params.companyid });
-    console.log('out data',data);
     
     const updatedCity = await InvoiceId.findByIdAndUpdate(data._id,
       { number: Number(data.number) + 1 },

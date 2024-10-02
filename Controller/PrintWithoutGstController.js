@@ -8,7 +8,6 @@ const Invoice = require("../Model/InvoiceWithoutGSTModel");
 exports.findInvoice = async (req, res) => {
   const id = req.params.id;
   const user = req.params.user;
-  console.log(id);
   try {
     const invoice = await Invoice.findOne({ quot: id,user:user});
     const customer = await Customer.findOne({ name: invoice.customer ,user:user });
