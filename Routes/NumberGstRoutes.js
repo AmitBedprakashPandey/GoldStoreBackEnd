@@ -1,5 +1,5 @@
 const express = require("express");
-const InvoiceId = require("../Controller/InvoiceIdGenraterController2");
+const InvoiceId = require("../Controller/NumberNonGstController");
 const Router = express.Router();
 
 Router.post("/", InvoiceId.create);

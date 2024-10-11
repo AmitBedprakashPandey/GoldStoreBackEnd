@@ -1,5 +1,5 @@
 // userController.js
-const InvoiceId = require("../Model/IdGenraterModel2");
+const InvoiceId = require("../Model/NumberGstModel");
 
 exports.create = async (req, res) => {
   try {

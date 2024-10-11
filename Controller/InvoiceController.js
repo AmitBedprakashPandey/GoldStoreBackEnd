@@ -29,7 +29,7 @@ exports.findOne = async (req, res) => {
     }); // Fetch all data from the database
 
     if (data === null) {
-      return res.status(200).json({ message: "Not Found" });
+      return res.status(404).json({ message: "Not Found" });
     }
     res.status(200).json({ data: data });
   } catch (error) {
