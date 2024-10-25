@@ -54,6 +54,29 @@ exports.login = async (req, res) => {
     return res.status(200).json({ token, email: user.email });
   } catch (error) {
     console.error("Login error:", error);
-    return res.status(500).json({ error: "Login failed, please try again later" });
+    return res
+      .status(500)
+      .json({ error: "Login failed, please try again later" });
+  }
+};
+
+exports.checkUsername = async (req, res) => {
+  try {
+    const { email, pass } = req.body;
+    const foundUser = await UserModel.findOne({ email }).lean();
+
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Hash the password and create a new user
+    const hashedPassword = await bcrypt.hash(pass, 10);
+
+    await UserModel.findOneAndUpdate(foundUser, {
+      pass: hashedPassword,
+    });
+
+    return res.status(200).json({ message: "Password Created successfully" });
+  } catch (error) {
+    console.log(error);
   }
 };
